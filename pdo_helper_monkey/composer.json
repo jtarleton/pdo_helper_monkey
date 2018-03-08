@@ -1,0 +1,19 @@
+{
+    "name": "tarlejh/pdo_helper_monkey",
+    "description": "A simple code generation tool for scaffolding CRUD operations",
+    "type": "project",
+    "require": {
+        "symfony/yaml": "^4.0"
+    },
+    "autoload": {
+        "files": ["pdo_helper_monkey_fns.php","color_cli.php"]
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Tarleton",
+            "email": "john@example.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
