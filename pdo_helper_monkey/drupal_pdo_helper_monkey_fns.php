@@ -1,8 +1,40 @@
-<?php 
+<?php
 function klean($txt) {
 	return str_replace("\n",'', $txt);
 }
 
+function doDrupalSomething() {
+ob_start();
+?>&lt;?php
+
+  //use Drupal\foo as foo;
+  /**
+   * Implements hook_menu().
+   *
+   * Provide locations/URLs for hello operations
+   */
+  function @DRUPALMODULE@_menu() {
+
+    // hook menu
+    $items['hello'] = array(
+      'title' => t('@DRUPALMODULE@'),
+      'description' => '@DRUPALMODULE@ Index',
+      'page callback' => '@DRUPALMODULE@_index',
+      //'page arguments' => array(2),
+      'access callback' => 'user',
+      'access arguments' => array('access'),
+      'type' => MENU_LOCAL_TASK,
+    );
+    return $items;
+  }
+
+  // Implements hook_
+  function @DRUPALMODULE@_index(){
+        return 'Test';
+    }<?php
+  $out=ob_get_clean();
+  return $out;
+}
 function doSomething(array $in){
 
 foreach ($in as $key => &$value) {
@@ -15,108 +47,48 @@ $lengths[$l] = (int)$l;
 $maxlength = max($lengths) + 18;
 ?>
 
-<?php ob_start(); ?>&lt;?php 
-
-class Database 
+<?php ob_start(); ?>&lt;?php
+/**
+ * \Drupal\Core\Database
+ */
+abstract class JtDrupalDb extends Database
 {
- public static function PDOCreate( $uri, $cache = true )
-    {
+  public static function db_query($query, array $args = array(), array $options = array()) {
+    if (empty($options['target'])) {
+      $options['target'] = 'default';
+    }
 
-        if( $cache )
-        {
-            if( isset(self::$pdo_objects[$uri]) )
-            {
-                self::$pdo_objects[$uri]['count']++;
-                return self::$pdo_objects[$uri]['dbh'];
-            }
+    return parent::getConnection($options['target'])->query($query, $args, $options);
+  }
 
-            self::$pdo_objects[$uri]['count'] = 1;
-        }
+  public static function db_select($table, $alias = NULL, array $options = array()) {
+    if (empty($options['target'])) {
+      $options['target'] = 'default';
+    }
+    return parent::getConnection($options['target'])->select($table, $alias, $options);
+  }
 
+  /**
+   * db_insert
+   * @author James Tarleton
+   * @param  string $table
+   * @param  array  $options
+   * @return InsertQuery Object
+   */
+  public static function db_insert($table, array $options = array()){
 
-
-        $args = parse_url($uri);
-
-        $dbtype 	= $args['scheme'];
-        $server 	= $args['host'];
-		$port		= null;
-        $user     	= $args['user'];
-        $pass     	= $args['pass'];
-        $database 	= $args['path'];
-
-        while( $database[0] == '/' )
-            $database = substr($database,1);
-
-
-        $db = null;
-
-        /*
-        * Here we will format the DSN string to match
-        * how the PDO driver expects the data
-        */
-
-        $dsn = '';
-
-        switch( strtolower($dbtype) )
-        {
-            case 'mysql':
-
-            	$dsn = 'mysql:host='.$server;
-
-            	//if( ! empty($port) )
-            		$dsn .= ';port=3307'; // .$port;
-
-            	if( ! empty($database) )
-            		$dsn .= ';dbname='.$database;
-
-            	$dsn .= ';charset=utf8';
-
-                break;
-			default:
-				throw new Exception('Unknown database type: '.$uri);
-				break;
-        }
-
-
-
-        //echo "\nCreating PDO with DSN: $dsn \n\n";
-
-       	$db = new PDO( $dsn, $user, $pass );
-
-
-        if( $cache )
-            self::$pdo_objects[$uri]['dbh'] = $db;
-
-
-  		$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
-
-  		/*
-  		* Execute post-creation SQL
-  		*/
-
-
-  		switch( strtolower($dbtype) )
-        {
-            case 'mysql':
-        		$db->prepare("set names 'UTF8'")->execute();
-        		break;
-    	}
-
-
-        return $db;
-    }	
+    if (empty($options['target']) || $options['target'] == 'slave') {
+      $options['target'] = 'default';
+    }
+    return parent::getConnection($options['target'])->insert($table, $options);
+  }
 }
 
-
-
-
-
-class Baseobject extends Database {
+class <?php $par = ucfirst(strtolower($in['parent'])); echo $par; ?> extends JtDrupalDb {
 	public function __construct() {
 		$dsn = sprintf('mysql://%s:%s@%s/%s','<?php echo $in['dbuser']; ?>', '<?php echo $in['dbpass']; ?>', 'localhost', '<?php echo $in['dbname']; ?>');
 
-		$this->pdo = parent::PDOCreate($dsn , false);
+		$this->pdo = parent::getConnection($options['target'])->query($query, $args, $options);
 	}
 	public static function Connect() {
 		$obj = new self;
@@ -124,48 +96,41 @@ class Baseobject extends Database {
 	}
 }
 
-
-
-
-
-
-
-
-class <?php echo $in['classname']; $par=null; if(isset($in['parent'])){ $par = ucfirst(strtolower($in['parent'])); echo " extends $par"; } ?> 
+class <?php echo $in['classname']; $par=null; if(isset($in['parent'])){ $par = ucfirst(strtolower($in['parent'])); echo " extends $par"; } ?>
 {
 <?php $field=null; foreach(explode(',', $in['csv_fields']) as $field) {
 	if(isset($field)){ ?>public $<?php echo $field; ?>;
 	<?php
 } } ?>
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
     public function __construct($id, $data=null){
       if(!isset($data)) {
   	    //$data = lookup data by id
-      } 
+      }
       $this->load($data);
     }
 
     /**
-     * Load data  
+     * Load data
      */
      public function load(array $data) {
 <?php //foreach(explode(',', $in['csv_fields']) as $field) {
 	?>foreach($data as $prop=>$value) {
 			$this->$prop = $value;
-		} 
-	<?php //if(isset($field)) echo str_pad("        \$this->{$field} ", $maxlength); echo "= \$data['$field'];\n"; } ?>       
+		}
+	<?php //if(isset($field)) echo str_pad("        \$this->{$field} ", $maxlength); echo "= \$data['$field'];\n"; } ?>
      }
 
 <?php foreach(explode(',', $in['csv_fields']) as $field) {
-	if(isset($field)) $getter = 'get'.str_replace('id','Id',str_replace(' ','',ucwords(str_replace('_', ' ', $field)))); 
+	if(isset($field)) $getter = 'get'.str_replace('id','Id',str_replace(' ','',ucwords(str_replace('_', ' ', $field))));
 	echo "    public function {$getter}() {
         return \$this->$field;
     }";
 } ?>
 <?php foreach(explode(',', $in['csv_fields']) as $field) {
-	if(isset($field)) $setter = 'set'.str_replace('id','Id',str_replace(' ','',ucwords(str_replace('_', ' ', $field)))); 
+	if(isset($field)) $setter = 'set'.str_replace('id','Id',str_replace(' ','',ucwords(str_replace('_', ' ', $field))));
 	echo "    private function {$setter}(\${$field}) {
         \$this->$field = \${$field};
     }";
@@ -174,13 +139,13 @@ class <?php echo $in['classname']; $par=null; if(isset($in['parent'])){ $par = u
 
 public function getTableHeading() {
 		$html = '%s';
-		$closure = function($fields){ 
-			foreach ($fields as $k => &$value) 
-				$fields[$k]=ucwords(str_replace('_',' ',$value)); 
-			return $fields; 
+		$closure = function($fields){
+			foreach ($fields as $k => &$value)
+				$fields[$k]=ucwords(str_replace('_',' ',$value));
+			return $fields;
 		};
 
-		return sprintf($html, implode('</th><th>', 
+		return sprintf($html, implode('</th><th>',
 				call_user_func($closure, array_keys(get_object_vars($this)))
 			)
 		);
@@ -211,8 +176,8 @@ class <?php echo $in['classname']; ?>Table<?php if(isset($par)) echo " extends $
 $pdo = parent::Connect();
 
 	$stmt=$pdo->prepare("SELECT * FROM <?php echo $in['classname']; ?>  LIMIT $offset,$limit;");
-	<?php foreach(explode(',', $in['csv_fields']) as $field) { ?>	
-	
+	<?php foreach(explode(',', $in['csv_fields']) as $field) { ?>
+
 	//$stmt->bindValue(':<?php echo $field; ?>', '<?php echo $field; ?>', PDO::PARAM_STR);
 	<?php } ?>
 	$stmt->execute();
@@ -220,7 +185,7 @@ $pdo = parent::Connect();
 	while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 		$obj = self::get(null,$row);
 		$objs[] = $obj;
-	} 
+	}
 
 
 
@@ -243,26 +208,26 @@ public static function Create() {
 
 $pdo = parent::Connect();
 
-	$stmt=$pdo->prepare('INSERT INTO <?php echo $in['classname']; ?> (<?php 
+	$stmt=$pdo->prepare('INSERT INTO <?php echo $in['classname']; ?> (<?php
 
-	echo $in['csv_fields']; $markers =explode(',', $in['csv_fields']); 
+	echo $in['csv_fields']; $markers =explode(',', $in['csv_fields']);
 
-	foreach($markers as &$marker) { $marker = ':'.$marker; }         
+	foreach($markers as &$marker) { $marker = ':'.$marker; }
 
-	?>) VALUES(<?php 
+	?>) VALUES(<?php
 
-	echo implode(',',$markers); 
+	echo implode(',',$markers);
 
 	?>)');
 
 
-	<?php foreach(explode(',', $in['csv_fields']) as $field) { ?>	
+	<?php foreach(explode(',', $in['csv_fields']) as $field) { ?>
 	$stmt->bindValue(':<?php echo $field; ?>', '<?php echo $field; ?>', PDO::PARAM_STR);
 	<?php } ?>
 	$stmt->execute();
     	return $stmt->rowCount();
-	} 
-	
+	}
+
 
 public static function Update(array $changes) {
 

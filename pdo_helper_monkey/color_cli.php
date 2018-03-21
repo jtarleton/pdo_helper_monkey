@@ -1,6 +1,6 @@
 <?php
 
-class ColorCLI 
+class ColorCLI
 {
                 static $foreground_colors = array(
                         'black'        => '0;30', 'dark_gray'    => '1;30',
@@ -12,18 +12,28 @@ class ColorCLI
                         'brown'        => '0;33', 'yellow'	 => '1;33',
                         'light_gray'   => '0;37', 'white'        => '1;37',
                 );
- 
+
                 static $background_colors = array(
                         'black'        => '40', 'red'          => '41',
                         'green'        => '42', 'yellow'       => '43',
                         'blue'         => '44', 'magenta'      => '45',
                         'cyan'         => '46', 'light_gray'   => '47',
                 );
- 
+
+                 public static function info($str) {
+                                 echo ColorCLI::getCs($str, 'light_blue','black');
+                 }
+                 public static function error($str) {
+                                 echo ColorCLI::getCs($str, 'red','black');
+                 }
+                 public static function success($str) {
+                                 echo ColorCLI::getCs($str, 'green','black');
+                 }
+
                 // Returns colored string
                 public static function getCs($string, $foreground_color = null, $background_color = null) {
                         $colored_string = "";
- 
+
                         // Check if given foreground color found
                         if ( isset(self::$foreground_colors[$foreground_color]) ) {
                                 $colored_string .= "\033[" . self::$foreground_colors[$foreground_color] . "m";
@@ -32,18 +42,18 @@ class ColorCLI
                         if ( isset(self::$background_colors[$background_color]) ) {
                                 $colored_string .= "\033[" . self::$background_colors[$background_color] . "m";
                         }
- 
+
                         // Add string and end coloring
                         $colored_string .=  $string . "\033[0m";
- 
+
                         return $colored_string . "\n";
                 }
- 
+
                 // Returns all foreground color names
                 public static function getForegroundColors() {
                         return array_keys(self::$foreground_colors);
                 }
- 
+
                 // Returns all background color names
                 public static function getBackgroundColors() {
                         return array_keys(self::$background_colors);

@@ -6,7 +6,7 @@
         "symfony/yaml": "2.0.*"
     },
     "autoload": {
-        "files": ["pdo_helper_monkey_fns.php","color_cli.php"]
+        "files": ["drupal_pdo_helper_monkey_fns.php","color_cli.php"]
     },
     "license": "MIT",
     "authors": [

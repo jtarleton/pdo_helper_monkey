@@ -6,6 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    '8ad28fa5ba82cc2f723e0172cd447534' => $baseDir . '/pdo_helper_monkey_fns.php',
+    '2e484222879d95f6c5f2287f29f9db82' => $baseDir . '/drupal_pdo_helper_monkey_fns.php',
     '713d24c627b87d34b820136a5502c2c2' => $baseDir . '/color_cli.php',
 );

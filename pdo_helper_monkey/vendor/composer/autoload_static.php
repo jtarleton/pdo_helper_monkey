@@ -7,7 +7,7 @@ namespace Composer\Autoload;
 class ComposerStaticInitd5bb31015296d408f0841856f01f8643
 {
     public static $files = array (
-        '8ad28fa5ba82cc2f723e0172cd447534' => __DIR__ . '/../..' . '/pdo_helper_monkey_fns.php',
+        '2e484222879d95f6c5f2287f29f9db82' => __DIR__ . '/../..' . '/drupal_pdo_helper_monkey_fns.php',
         '713d24c627b87d34b820136a5502c2c2' => __DIR__ . '/../..' . '/color_cli.php',
     );
 
