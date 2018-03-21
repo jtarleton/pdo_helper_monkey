@@ -1,3 +1,3 @@
-foo:
-  bar: 123
-  baz: 324
+fields:
+  cid: "int"
+  ad_title: "varchar"

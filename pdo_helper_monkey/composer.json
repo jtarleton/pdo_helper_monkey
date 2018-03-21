@@ -3,7 +3,7 @@
     "description": "A simple code generation tool for scaffolding CRUD operations",
     "type": "project",
     "require": {
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "2.0.*"
     },
     "autoload": {
         "files": ["pdo_helper_monkey_fns.php","color_cli.php"]
@@ -15,5 +15,5 @@
             "email": "john@example.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "dev"
 }

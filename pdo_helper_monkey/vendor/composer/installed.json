@@ -1,46 +1,30 @@
 [
     {
         "name": "symfony/yaml",
-        "version": "v4.0.6",
-        "version_normalized": "4.0.6.0",
+        "version": "2.0.x-dev",
+        "version_normalized": "2.0.9999999.9999999-dev",
+        "target-dir": "Symfony/Component/Yaml",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/yaml.git",
-            "reference": "de5f125ea39de846b90b313b2cfb031a0152d223"
+            "url": "https://github.com/symfony/Yaml.git",
+            "reference": "c508a879829976e30f05e16b96a7ed024ee82ce1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/de5f125ea39de846b90b313b2cfb031a0152d223",
-            "reference": "de5f125ea39de846b90b313b2cfb031a0152d223",
+            "url": "https://api.github.com/repos/symfony/Yaml/zipball/c508a879829976e30f05e16b96a7ed024ee82ce1",
+            "reference": "c508a879829976e30f05e16b96a7ed024ee82ce1",
             "shasum": ""
         },
         "require": {
-            "php": "^7.1.3"
+            "php": ">=5.3.2"
         },
-        "conflict": {
-            "symfony/console": "<3.4"
-        },
-        "require-dev": {
-            "symfony/console": "~3.4|~4.0"
-        },
-        "suggest": {
-            "symfony/console": "For validating YAML files using the lint command"
-        },
-        "time": "2018-02-19T20:08:53+00:00",
+        "time": "2013-01-18T09:52:07+00:00",
         "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.0-dev"
-            }
-        },
-        "installation-source": "dist",
+        "installation-source": "source",
         "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Yaml\\": ""
-            },
-            "exclude-from-classmap": [
-                "/Tests/"
-            ]
+            "psr-0": {
+                "Symfony\\Component\\Yaml": ""
+            }
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -49,14 +33,16 @@
         "authors": [
             {
                 "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
+                "email": "fabien@symfony.com",
+                "homepage": "http://fabien.potencier.org",
+                "role": "Lead Developer"
             },
             {
                 "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
+                "homepage": "http://symfony.com/contributors"
             }
         ],
         "description": "Symfony Yaml Component",
-        "homepage": "https://symfony.com"
+        "homepage": "http://symfony.com"
     }
 ]

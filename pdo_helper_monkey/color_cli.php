@@ -21,7 +21,7 @@ class ColorCLI
                 );
  
                 // Returns colored string
-                public static function getColoredString($string, $foreground_color = null, $background_color = null) {
+                public static function getCs($string, $foreground_color = null, $background_color = null) {
                         $colored_string = "";
  
                         // Check if given foreground color found
@@ -36,7 +36,7 @@ class ColorCLI
                         // Add string and end coloring
                         $colored_string .=  $string . "\033[0m";
  
-                        return $colored_string;
+                        return $colored_string . "\n";
                 }
  
                 // Returns all foreground color names
