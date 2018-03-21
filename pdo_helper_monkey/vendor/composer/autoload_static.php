@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit2e08696afa14e3b841e2ad7dc38a2037
+class ComposerStaticInitd5bb31015296d408f0841856f01f8643
 {
     public static $files = array (
         '8ad28fa5ba82cc2f723e0172cd447534' => __DIR__ . '/../..' . '/pdo_helper_monkey_fns.php',
@@ -24,7 +24,7 @@ class ComposerStaticInit2e08696afa14e3b841e2ad7dc38a2037
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixesPsr0 = ComposerStaticInit2e08696afa14e3b841e2ad7dc38a2037::$prefixesPsr0;
+            $loader->prefixesPsr0 = ComposerStaticInitd5bb31015296d408f0841856f01f8643::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }
