@@ -1,0 +1,27 @@
+<?php
+
+  //use Drupal\foo as foo;
+  /**
+   * Implements hook_menu().
+   *
+   * Provide locations/URLs for hello operations
+   */
+  function @DRUPALMODULE@_menu() {
+
+    // hook menu
+    $items['hello'] = array(
+      'title' => t('@DRUPALMODULE@'),
+      'description' => '@DRUPALMODULE@ Index',
+      'page callback' => '@DRUPALMODULE@_index',
+      //'page arguments' => array(2),
+      'access callback' => 'user',
+      'access arguments' => array('access'),
+      'type' => MENU_LOCAL_TASK,
+    );
+    return $items;
+  }
+
+  // Implements hook_
+  function @DRUPALMODULE@_index(){
+        return 'Test';
+    }

@@ -1,30 +1,159 @@
 [
     {
-        "name": "symfony/yaml",
-        "version": "2.0.x-dev",
-        "version_normalized": "2.0.9999999.9999999-dev",
-        "target-dir": "Symfony/Component/Yaml",
+        "name": "symfony/deprecation-contracts",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/Yaml.git",
-            "reference": "c508a879829976e30f05e16b96a7ed024ee82ce1"
+            "url": "https://github.com/symfony/deprecation-contracts.git",
+            "reference": "ede224dcbc36138943a296107db2b8b2a690ac1c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Yaml/zipball/c508a879829976e30f05e16b96a7ed024ee82ce1",
-            "reference": "c508a879829976e30f05e16b96a7ed024ee82ce1",
+            "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/ede224dcbc36138943a296107db2b8b2a690ac1c",
+            "reference": "ede224dcbc36138943a296107db2b8b2a690ac1c",
             "shasum": ""
         },
         "require": {
-            "php": ">=5.3.2"
+            "php": "^7.1"
         },
-        "time": "2013-01-18T09:52:07+00:00",
+        "time": "2020-02-14T07:31:56+00:00",
         "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1-dev"
+            }
+        },
         "installation-source": "source",
         "autoload": {
-            "psr-0": {
-                "Symfony\\Component\\Yaml": ""
+            "files": [
+                "function.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Grekas",
+                "email": "p@tchwork.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
             }
+        ],
+        "description": "A generic function and convention to trigger deprecation notices",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/polyfill-ctype",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/polyfill-ctype.git",
+            "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+            "reference": "fbdeaec0df06cf3d51c93de80c7eb76e271f5a38",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "suggest": {
+            "ext-ctype": "For best performance"
+        },
+        "time": "2020-01-13T11:15:53+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.14-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Polyfill\\Ctype\\": ""
+            },
+            "files": [
+                "bootstrap.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Gert de Pagter",
+                "email": "BackEndTea@gmail.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony polyfill for ctype functions",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "compatibility",
+            "ctype",
+            "polyfill",
+            "portable"
+        ]
+    },
+    {
+        "name": "symfony/yaml",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/yaml.git",
+            "reference": "0c7023a90e80d7819bb03483c027f3dee963b42a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/0c7023a90e80d7819bb03483c027f3dee963b42a",
+            "reference": "0c7023a90e80d7819bb03483c027f3dee963b42a",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.2.5",
+            "symfony/deprecation-contracts": "^2.1",
+            "symfony/polyfill-ctype": "~1.8"
+        },
+        "conflict": {
+            "symfony/console": "<4.4"
+        },
+        "require-dev": {
+            "symfony/console": "^4.4|^5.0"
+        },
+        "suggest": {
+            "symfony/console": "For validating YAML files using the lint command"
+        },
+        "time": "2020-02-08T14:04:50+00:00",
+        "bin": [
+            "Resources/bin/yaml-lint"
+        ],
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "5.1-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Yaml\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
@@ -33,16 +162,14 @@
         "authors": [
             {
                 "name": "Fabien Potencier",
-                "email": "fabien@symfony.com",
-                "homepage": "http://fabien.potencier.org",
-                "role": "Lead Developer"
+                "email": "fabien@symfony.com"
             },
             {
                 "name": "Symfony Community",
-                "homepage": "http://symfony.com/contributors"
+                "homepage": "https://symfony.com/contributors"
             }
         ],
         "description": "Symfony Yaml Component",
-        "homepage": "http://symfony.com"
+        "homepage": "https://symfony.com"
     }
 ]

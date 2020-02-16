@@ -1,21 +1,4 @@
 <?php
-function klean($txt) {
-  return str_replace("\n",'', $txt);
-}
-
-function doSomething(array $in){
-
-foreach ($in as $key => &$value) {
-  $in[$key] = klean($value);
-}
-
-foreach(explode(',', $in['csv_fields']) as $field) { $l=strlen($field);
-$lengths[$l] = (int)$l;
-}
-$maxlength = max($lengths) + 18;
-?>
-
-<?php ob_start(); ?>&lt;?php
 
 class Database
 {
@@ -108,7 +91,7 @@ class Database
 
 class Baseobject extends Database {
   public function __construct() {
-    $dsn = sprintf('mysql://%s:%s@%s/%s','<?php echo $in['dbuser']; ?>', '<?php echo $in['dbpass']; ?>', 'localhost', '<?php echo $in['dbname']; ?>');
+    $dsn = sprintf('mysql://%s:%s@%s/%s','root', 'root', 'localhost', 'mydb');
 
     $this->pdo = parent::PDOCreate($dsn , false);
   }
@@ -125,13 +108,10 @@ class Baseobject extends Database {
 
 
 
-class <?php echo $in['classname']; $par=null; if(isset($in['parent'])){ $par = ucfirst(strtolower($in['parent'])); echo " extends $par"; } ?>
-{
-<?php $field=null; foreach(explode(',', $in['csv_fields']) as $field) {
-  if(isset($field)){ ?>public $<?php echo $field; ?>;
-  <?php
-} } ?>
-  /**
+class Espresso extends Baseespresso{
+public $cid;
+  public $ad_title;
+    /**
    * Constructor
    */
     public function __construct($id, $data=null){
@@ -145,28 +125,20 @@ class <?php echo $in['classname']; $par=null; if(isset($in['parent'])){ $par = u
      * Load data
      */
      public function load(array $data) {
-<?php //foreach(explode(',', $in['csv_fields']) as $field) {
-  ?>foreach($data as $prop=>$value) {
+foreach($data as $prop=>$value) {
       $this->$prop = $value;
     }
-  <?php //if(isset($field)) echo str_pad("        \$this->{$field} ", $maxlength); echo "= \$data['$field'];\n"; } ?>
-     }
+       }
 
-<?php foreach(explode(',', $in['csv_fields']) as $field) {
-  if(isset($field) && $field === 'id') $getter = 'get'.str_replace('id','Id',str_replace(' ','',ucwords(str_replace('_', ' ', $field))));
-  else 
-    $getter = 'get'.str_replace('id','id',str_replace(' ','',ucwords(str_replace('_', ' ', $field))));
-  echo "    public function {$getter}() {
-        return \$this->$field;
-    }";
-} ?>
-<?php foreach(explode(',', $in['csv_fields']) as $field) {
-  if(isset($field)) $setter = 'set'.str_replace('id','Id',str_replace(' ','',ucwords(str_replace('_', ' ', $field))));
-  echo "    private function {$setter}(\${$field}) {
-        \$this->$field = \${$field};
-    }";
-} ?>
-
+    public function () {
+        return $this->cid;
+    }    public function () {
+        return $this->ad_title;
+    }    private function setCId($cid) {
+        $this->cid = $cid;
+    }    private function setAdTitle($ad_title) {
+        $this->ad_title = $ad_title;
+    }
 
 public function getTableHeading() {
     $html = '%s';
@@ -184,17 +156,16 @@ public function getTableHeading() {
 
 }
 
-class <?php echo $in['classname']; ?>Table<?php if(isset($par)) echo " extends $par"; ?>
-{
+class EspressoTable extends Baseespresso{
     public static function get($id, $data=null) {
-    return new <?php echo $in['classname']; ?>($id, $data);
+    return new Espresso($id, $data);
     }
 
 
   public static function getCount(){
      $pdo = parent::Connect();
      $stmt=$pdo->prepare("SELECT count(*) as ct
-    FROM <?php echo $in['classname']; ?>");
+    FROM Espresso");
   $stmt->execute();
   $row = $stmt->fetch(PDO::FETCH_ASSOC);
   return intval($row['ct']);
@@ -206,12 +177,12 @@ class <?php echo $in['classname']; ?>Table<?php if(isset($par)) echo " extends $
 
 $pdo = parent::Connect();
 
-  $stmt=$pdo->prepare("SELECT * FROM <?php echo $in['classname']; ?>  LIMIT $offset,$limit;");
-  <?php foreach(explode(',', $in['csv_fields']) as $field) { ?>
-
-  //$stmt->bindValue(':<?php echo $field; ?>', '<?php echo $field; ?>', PDO::PARAM_STR);
-  <?php } ?>
-  $stmt->execute();
+  $stmt=$pdo->prepare("SELECT * FROM Espresso  LIMIT $offset,$limit;");
+  
+  //$stmt->bindValue(':cid', 'cid', PDO::PARAM_STR);
+  
+  //$stmt->bindValue(':ad_title', 'ad_title', PDO::PARAM_STR);
+    $stmt->execute();
   $objs = array();
   while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $obj = self::get(null,$row);
@@ -239,23 +210,12 @@ public static function Create() {
 
 $pdo = parent::Connect();
 
-  $stmt=$pdo->prepare('INSERT INTO <?php echo $in['classname']; ?> (<?php
-
-  echo $in['csv_fields']; $markers =explode(',', $in['csv_fields']);
-
-  foreach($markers as &$marker) { $marker = ':'.$marker; }
-
-  ?>) VALUES(<?php
-
-  echo implode(',',$markers);
-
-  ?>)');
+  $stmt=$pdo->prepare('INSERT INTO Espresso (cid,ad_title) VALUES(:cid,:ad_title)');
 
 
-  <?php foreach(explode(',', $in['csv_fields']) as $field) { ?>
-  $stmt->bindValue(':<?php echo $field; ?>', '<?php echo $field; ?>', PDO::PARAM_STR);
-  <?php } ?>
-  $stmt->execute();
+    $stmt->bindValue(':cid', 'cid', PDO::PARAM_STR);
+    $stmt->bindValue(':ad_title', 'ad_title', PDO::PARAM_STR);
+    $stmt->execute();
       return $stmt->rowCount();
   }
 
@@ -276,12 +236,10 @@ if(count($missing))
 
 $pdo = parent::Connect();
 
-  $stmt=$pdo->prepare('UPDATE <?php echo $in['classname']; ?> SET <?php $sqlpieces=array(); foreach( explode(',', $in['csv_fields']) as $fld) $sqlpieces[]= "$fld=:$fld"; echo implode(',', $sqlpieces) ?>');
-  <?php foreach(explode(',', $in['csv_fields']) as $field) { ?>
-  $stmt->bindValue(':<?php echo $field; ?>', $changes['<?php echo $field; ?>'], PDO::PARAM_STR);
-  <?php }?>
-  $stmt->execute();
+  $stmt=$pdo->prepare('UPDATE Espresso SET cid=:cid,ad_title=:ad_title');
+    $stmt->bindValue(':cid', $changes['cid'], PDO::PARAM_STR);
+    $stmt->bindValue(':ad_title', $changes['ad_title'], PDO::PARAM_STR);
+    $stmt->execute();
     return $stmt->rowCount();
   }
 }
-<?php } ?>

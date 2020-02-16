@@ -1,5 +1,28 @@
 <?php
 
+function prompt_tablename() {
+
+echo "Enter the name of your table: "; echo "\n";
+$handle = fopen ("php://stdin","r");
+$line = fgets($handle);
+return trim($line);
+}
+
+function prompt_continue() {
+
+echo "Are you sure you want to do this?  Type 'yes' to continue: ";
+$handle = fopen ("php://stdin","r");
+$line = fgets($handle);
+if(trim($line) != 'yes'){
+    echo "ABORTING!\n";
+    exit;
+}
+echo "\n";
+echo "Thank you, continuing...\n"; 
+
+}
+
+
 class ColorCLI
 {
                 static $foreground_colors = array(

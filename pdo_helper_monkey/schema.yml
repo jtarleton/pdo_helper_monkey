@@ -1,3 +1,7 @@
+dbuser: 'root'
+dbpass: 'root'
+dbname: 'mydb'
+classname: 'Esdjhfkdjsh'
 fields:
   cid: "int"
   ad_title: "varchar"

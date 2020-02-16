@@ -3,10 +3,10 @@
     "description": "A simple code generation tool for scaffolding CRUD operations",
     "type": "project",
     "require": {
-        "symfony/yaml": "2.0.*"
+        "symfony/yaml": "^5.1@dev"
     },
     "autoload": {
-        "files": ["drupal_pdo_helper_monkey_fns.php","color_cli.php"]
+        "files": ["plain_pdo_helper_monkey_fns.php","color_cli.php"]
     },
     "license": "MIT",
     "authors": [

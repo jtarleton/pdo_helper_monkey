@@ -1,16 +1,26 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-$schema = \Symfony\Component\Yaml\Yaml::parse( __DIR__ . '/schema.yml');
+$path = __DIR__ . '/vendor/autoload.php';
+
+
+require $path;
+
+use Symfony\Component\Yaml\Yaml;
+$schema = Yaml::parseFile( __DIR__ . '/schema.yml');
+
+$classes  = get_declared_classes();
+
+
 $in = array();
 $in['csv_fields'] = implode(',', array_keys($schema['fields']));
-$in['dbuser'] = 'root';
-$in['dbpass'] = 'root';
-$in['dbname'] = 'mydb';
-$in['classname'] = 'Espresso';
+$in['dbuser'] = $schema['dbuser'];
+$in['dbpass'] = $schema['dbpass'];
+$in['dbname'] = $schema['dbname'];
+$in['classname'] =$schema['classname'];
 $in['parent'] = 'Base' . $in['classname'];
-$in['drupal_root'] = 'C:\\wamp\\adid\\';
-$in['custom_module_dir'] = 'sites\\all\\modules\\adid\\';
-
+$in['drupal_root'] = ''; // 'C:\\wamp\\adid\\';
+$in['custom_module_dir'] = ''; 
+// 'sites\\all\\modules\\adid\\';
+die(var_dump($in));
 $output_path = (empty($in['drupal_root']) || empty($in['custom_module_dir']))
   ? __DIR__
   : $in['drupal_root'] .$in['custom_module_dir'];
@@ -20,7 +30,7 @@ doSomething($in);
 
 $out=ob_get_clean();
 
-$drupal_module = doDrupalSomething();
+$drupal_module = ''; //doDrupalSomething();
 $drupal_info = 'name = My module
 description = My module functionality.
 package = My Package
@@ -31,13 +41,13 @@ stylesheets[all][] = mymodule.css';
 $time=time();
 
 $new_dir = $output_path .  strtolower($in['classname']) . '_' . $time;
-mkdir($new_dir);
-mkdir($new_dir.'\\lib');
-file_put_contents($new_dir . '\\appmodule-' . $time . '.module', html_entity_decode($drupal_info));
+//mkdir($new_dir);
+//mkdir($new_dir.'\\lib');
+//file_put_contents($new_dir . '\\appmodule-' . $time . '.module', html_entity_decode($drupal_info));
 
-file_put_contents($new_dir . '\\appmodule-' . $time . '.module', html_entity_decode($drupal_module));
-
-file_put_contents($new_dir . '\\lib\\app-' . $time . '.php', html_entity_decode($out));
+//file_put_contents($new_dir . '\\appmodule-' . $time . '.module', html_entity_decode($drupal_module));
+// $path  = '$new_dir . '\\lib\\';
+file_put_contents('app-' . $time . '.php', html_entity_decode($out));
 
 
 
@@ -54,3 +64,6 @@ file_put_contents($new_dir . '\\lib\\app-' . $time . '.php', html_entity_decode(
 
 */
 ColorCLI::info('Created app-' . $time . '.php');
+
+
+
