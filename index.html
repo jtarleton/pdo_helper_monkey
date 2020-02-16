@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<head>
+	<style type="text/css">
+body {
+	font-family: Lucida Sans Unicode, sans-serif;
+}
+</style>
+</head>
+<body>
+	
+<h1>PHP Helper Monkey</h1>
+
+<p><img src="mojo.png"></p>
+<div>
+<p>PHP Helper Monkey is a collection of simple scaffolding tools for PHP.  Alternatively to the many code generation libraries and framework components available through <a href="https://getcomposer.org/">composer</a>, the PHP Helper Monkey is a simple online tool.  There are no dependencies and there is nothing to install.</p>
+
+<p>If PHP Helper Monkey has helped you, please consider supporting this site through a tiny donation. Thank you.</p>    
+
+<p><strong>
+CRUD Operation Helper Tool
+</strong></p>
+
+<fieldset><legend>Instructions</legend>
+<p>
+<ol>
+	<li><small>Enter a YAML description of your table and fields.</small></li>
+	<li><small>Copy and paste Helper Monkey's output to use in your awesome project. That's it.</small></li>
+</ol>
+</p>
+
+
+
+
+		<div>
+<form action="thepost.php" method="post">
+
+<div><textarea name="theyaml" rows="10" cols="100">
+
+dbuser: 'root'
+dbpass: 'root'
+dbname: 'mydb'
+classname: 'Customer'
+fields:
+  cid: "int"
+  first_name: "varchar"
+  last_name: "varchar"
+
+
+	
+
+
+</textarea></div>
+
+<div><input type="submit"></input></div>
+</form>
+</div>
+
+
+
+</fieldset>
+</div>
+
+</body>
+
+</html>
