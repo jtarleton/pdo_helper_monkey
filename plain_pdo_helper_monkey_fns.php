@@ -204,20 +204,9 @@ $pdo = parent::Connect();
   //$stmt->bindValue(':<?php echo $field; ?>', '<?php echo $field; ?>', PDO::PARAM_STR);
   <?php } ?>
   $stmt->execute();
-  $objs = array();
-  while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    $obj = self::get(null,$row);
-    $objs[] = $obj;
-  }
-
-
-
-
-
-
-
-
-      return $objs;
+  
+   $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $rows;
   }
 
 
@@ -245,7 +234,7 @@ $pdo = parent::Connect();
 
 
   <?php foreach(explode(',', $in['csv_fields']) as $field) { ?>
-  $stmt->bindValue(':<?php echo $field; ?>', '<?php echo $field; ?>', PDO::PARAM_STR);
+  $stmt->bindValue(':<?php echo $field; ?>', $row['<?php echo $field; ?>'], PDO::PARAM_STR);
   <?php } ?>
   $stmt->execute();
       return $stmt->rowCount();

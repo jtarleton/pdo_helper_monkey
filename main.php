@@ -4,10 +4,7 @@
 <style type="text/css">
 .output {
 
-color:#FFF;
-
-background-color:#111;
-
+background-color:#FFF;
 margin:50px;
 padding:50px;
 
@@ -28,14 +25,17 @@ $path = __DIR__ . '/vendor/autoload.php';
 require $path;
 
 use Symfony\Component\Yaml\Yaml;
+$yml = filter_input(INPUT_POST, 'theyaml', FILTER_SANITIZE_STRING);
+if(isset($yml)){
 
-if(isset($_POST['theyaml'])){
-	$yaml= str_replace("\t",'  ', $_POST['theyaml']);
+	$yaml= str_replace("\t",'  ', $yml);
 	$schema = Yaml::parse(strip_tags(trim($yaml))); }
 else {
 	$schema = Yaml::parseFile( __DIR__ . '/schema.yml');
 }
 $classes  = get_declared_classes();
+
+$dump= Yaml::dump($schema, 1);
 
 $in = array();
 $in['csv_fields'] = implode(',', array_keys($schema['fields']));
@@ -59,7 +59,8 @@ $in['custom_module_dir'] = '';
 //     //mkdir($new_dir.'\\lib');
 //     //file_put_contents($new_dir . '\\appmodule-' . $time . '.module', html_entity_decode($drupal_info));
 //
-     echo '<pre>'.html_entity_decode($out).'</pre>';
+     highlight_string(  '<?p' . html_entity_decode(strip_tags($out)));
+
 
 
 // Create new Colors class
